@@ -8,6 +8,9 @@ Read a JUnit-style test result XML file and produce a human-readable AI
 summary, run entirely from a developer's machine. This is the baseline
 capability everything else builds on.
 
+See [phase-1-architecture.md](phase-1-architecture.md) for the component
+diagram used in the demo walkthrough.
+
 ## Scope
 - Parse JUnit XML (`testsuites`/`testsuite`/`testcase`, including
   `failure`/`error`/`skipped`) into structured results.

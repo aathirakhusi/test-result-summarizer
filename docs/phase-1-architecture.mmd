@@ -1,0 +1,12 @@
+flowchart LR
+    X[("JUnit XML file (local disk)")] --> P[parse_junit_xml]
+    P --> R[build_report_text]
+    R --> S["summarize_with_ai (OpenAI gpt-4o-mini)"]
+    ENV[("OPENAI_API_KEY env var")] -.-> S
+    R --> O1[Console: raw report]
+    S --> O2[Console: AI summary]
+
+    classDef io fill:#dfe3e8,stroke:#5a6470,color:#1a1a1a;
+    classDef step fill:#cdeac0,stroke:#2f7a4f,color:#1a1a1a;
+    class X,ENV,O1,O2 io;
+    class P,R,S step;

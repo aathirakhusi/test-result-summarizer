@@ -114,7 +114,8 @@ The long-term plan is broken into phases — see [architecture.mmd](architecture
 for the system diagram and each phase doc for scope/status:
 
 - [Phase 1 — Local Summary](phase-1-local-summary.md) — done, this is what
-  `main.py` does today.
+  `main.py` does today (see [phase-1-architecture.md](phase-1-architecture.md)
+  for the component diagram).
 - [Phase 2 — Pipeline Automation + Teams Notification](phase-2-pipeline-automation.md) — planned.
 - [Phase 3 — Triage and Escalation](phase-3-triage-and-escalation.md) — future, deferred.
 
