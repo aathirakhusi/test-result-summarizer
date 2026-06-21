@@ -1,0 +1,48 @@
+flowchart TD
+
+    subgraph legend["Legend"]
+        direction LR
+        leg1["Existing ADO infra"]:::infra
+        leg2["Built today"]:::existing
+        leg3["Planned"]:::planned
+    end
+
+    subgraph ado["Azure DevOps"]
+        A[Nightly Build Pipeline] --> B[Run Test Suite]
+        B --> C[(JUnit XML Artifact)]
+        A --> D[(Build and Git Commit History API)]
+    end
+
+    subgraph core["test-result-summarizer — built"]
+        C --> E["Fetch Artifact (az CLI / REST)"]
+        E --> F[parse_junit_xml]
+        F --> G[build_report_text]
+        G --> H["AI Summary (OpenAI)"]
+    end
+
+    subgraph enrich["Enrichment — planned"]
+        OWN[(Test to Owner Mapping)] --> I[Owner Lookup]
+        F --> I
+        D --> J["Culprit Commit Lookup (commits since last green build)"]
+        F --> J
+        H --> K[Enriched Report]
+        I --> K
+        J --> K
+    end
+
+    subgraph notify["Notify and Escalate — planned"]
+        K --> L[Teams / Email Message]
+        K --> M[Auto-file Azure Boards Bug]
+    end
+
+    L --> T[Tester / Owning Team]
+    M --> T
+
+    classDef existing fill:#cdeac0,stroke:#2f7a4f,color:#1a1a1a;
+    classDef planned fill:#fde9b6,stroke:#b8860b,color:#1a1a1a;
+    classDef infra fill:#dfe3e8,stroke:#5a6470,color:#1a1a1a;
+
+    class A,B,C,D infra;
+    class E,F,G,H existing;
+    class OWN,I,J,K,L,M planned;
+    class T infra;

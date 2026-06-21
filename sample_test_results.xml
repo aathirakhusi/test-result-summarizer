@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="SampleSuite" tests="6" failures="2" errors="1" skipped="1" time="4.218">
+  <testsuite name="AuthenticationTests" tests="3" failures="1" errors="0" skipped="0" time="1.502">
+    <testcase classname="AuthenticationTests" name="test_login_with_valid_credentials" time="0.412"/>
+    <testcase classname="AuthenticationTests" name="test_login_with_invalid_password" time="0.388">
+      <failure message="AssertionError: expected status code 401 but got 500" type="AssertionError">
+Traceback (most recent call last):
+  File "test_auth.py", line 47, in test_login_with_invalid_password
+    self.assertEqual(response.status_code, 401)
+AssertionError: 500 != 401
+The server raised an unhandled NullReferenceException when the password field was empty after trimming whitespace.
+      </failure>
+    </testcase>
+    <testcase classname="AuthenticationTests" name="test_logout_clears_session" time="0.702"/>
+  </testsuite>
+  <testsuite name="PaymentTests" tests="2" failures="1" errors="0" skipped="0" time="2.116">
+    <testcase classname="PaymentTests" name="test_successful_card_charge" time="0.951"/>
+    <testcase classname="PaymentTests" name="test_charge_declined_card" time="1.165">
+      <failure message="Timeout waiting for payment gateway response" type="TimeoutError">
+Traceback (most recent call last):
+  File "test_payment.py", line 88, in test_charge_declined_card
+    response = gateway.charge(card=declined_test_card, amount=2500)
+TimeoutError: Gateway did not respond within 5000ms. Suspected network flakiness or sandbox outage.
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="InventoryTests" tests="1" failures="0" errors="1" skipped="0" time="0.600">
+    <testcase classname="InventoryTests" name="test_stock_level_sync" time="0.600">
+      <error message="ConnectionRefusedError: could not connect to inventory-service:8080" type="ConnectionError">
+Traceback (most recent call last):
+  File "test_inventory.py", line 23, in test_stock_level_sync
+    client.connect("inventory-service", 8080)
+ConnectionRefusedError: [Errno 111] Connection refused
+      </error>
+    </testcase>
+  </testsuite>
+</testsuites>
