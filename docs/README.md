@@ -3,6 +3,9 @@
 Parses a JUnit-style XML test result file and produces a concise, AI-generated
 summary (root causes, flaky vs. real failures, etc.) using the OpenAI API.
 
+> All commands below assume you're in the repo root (one level up from this
+> `docs/` folder), since that's where `main.py` and `requirements.txt` live.
+
 ## Prerequisites
 
 - Python 3.10+ (the script uses `list[...]` type hints)
@@ -105,17 +108,18 @@ you'd need a small adapter to convert that JSON into a `TestCaseResult` list
 before calling `build_report_text`/`summarize_with_ai`. Publishing the raw XML
 as an artifact (Option above) is simpler and avoids writing that adapter.
 
-## What to do next
+## Roadmap
 
-- **Automate the pull**: wrap the Azure CLI/REST steps above into a small
-  `fetch_from_pipeline.py` so the whole flow (download → summarize) is one
-  command.
-- **Run it in CI**: add a pipeline step that runs `main.py` right after tests
-  and posts the AI summary as a PR comment or a Teams/Slack message instead of
-  just stdout.
-- **Secrets**: move `OPENAI_API_KEY` (and `AZDO_PAT` if you script the
-  download) into pipeline secret variables / Azure Key Vault rather than a
-  local env var, once this runs in CI.
+The long-term plan is broken into phases — see [architecture.mmd](architecture.mmd)
+for the system diagram and each phase doc for scope/status:
+
+- [Phase 1 — Local Summary](phase-1-local-summary.md) — done, this is what
+  `main.py` does today.
+- [Phase 2 — Pipeline Automation + Teams Notification](phase-2-pipeline-automation.md) — planned.
+- [Phase 3 — Triage and Escalation](phase-3-triage-and-escalation.md) — future, deferred.
+
+## Other ideas (not tied to a phase)
+
 - **Other formats**: if some suites emit TRX or NUnit XML instead of JUnit,
   `parse_junit_xml` will need format detection or a separate parser.
 - **Tests**: there's currently no test coverage for `parse_junit_xml` /
